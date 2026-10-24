@@ -1,20 +1,22 @@
 ; 10.- Obtencion de una cadena decimal
-;MATERIA: LENGUAJES DE INTERFAZ
-;ALUMNO: Angel Ernesto Santos Plazola
-;HORARIO: 08:00 - 09:00
-;DOCENTE: JOSE LUIS MEDINA JIMENEZ
-; Descripcion: Lectura, conversion y formateo de datos para su representacion en base 10
-INCLUDE Irvine32.inc
+; Materia: Lenguajes de Interfaz
+; Nombre de la alumna: Guardado Pérez Dulce María
+; Horario: 8:00 am - 09:00 am
+; Nombre del Docente: Jose Luis Medina Jimenez
+; Descripcion: Programa que calcula e imprime el progreso de una descarga 
+; (bytes descargados, faltantes, porcentaje y bloques completos).
 
-.data ; Definicion de variables globales y cadenas de texto para la interfaz de consola
+.data
+    ; Variables para guardar los resultados de los cálculos
     descargados DWORD ?
     pendientes  DWORD ?
     porcentaje  DWORD ?
     grupos      DWORD ?
     residuo     DWORD ? 
 
-    buffer BYTE 11 DUP(?), 0
+    buffer BYTE 11 DUP(?), 0 ; Espacio temporal para convertir los números a texto
 
+    ; Mensajes que se mostrarán en la pantalla
     msgDesc BYTE "Bytes descargados: ", 0
     msgPend BYTE "Bytes pendientes: ", 0
     msgPorc BYTE "Porcentaje de avance: ", 0
@@ -23,44 +25,45 @@ INCLUDE Irvine32.inc
 
 .code 
 main PROC 
-    mov eax, 125          ; Asignamos la cantidad de sectores descargados
-    mov ebx, 512          ; Establecemos el factor de multiplicacion por sector
-    mul ebx               ; Multiplicamos sectores por tamano unitario; el resultado queda en EAX
-    mov descargados, eax  ; Guardamos el total de bytes procesados
+    ; Calcula los bytes descargados multiplicando 125 sectores por 512 bytes
+    mov eax, 125
+    mov ebx, 512
+    mul ebx
+    mov descargados, eax
 
-    ; Calculamos el volumen restante restando los descargados a una meta fija de 100,000
+    ; Calcula los bytes que faltan restando los descargados a la meta (100,000)
     mov ebx, 100000
     sub ebx, eax
     mov pendientes, ebx
 
-    ; Determinamos el porcentaje de progreso actual mediante una regla de tres
+    ; Calcula el porcentaje de avance con una regla de tres
     mov eax, descargados 
     mov ebx, 100
-    mul ebx
+    mul ebx                 ; Multiplica por 100
     mov ebx, 100000
-    xor edx, edx
-    div ebx
+    xor edx, edx            ; Limpia EDX antes de hacer la división
+    div ebx                 ; Divide entre el total (100,000)
     mov porcentaje, eax
 
-    ; Obtenemos bloques de 1024 bytes (KBs) y el sobrante mediante division entera
+    ; Divide entre 1024 para obtener los bloques completos y el sobrante
     mov eax, descargados 
     mov ebx, 1024
     xor edx, edx
     div ebx
-    mov grupos, eax
-    mov residuo, edx
+    mov grupos, eax         ; Cociente: bloques completos de 1024
+    mov residuo, edx        ; Residuo: bytes que sobraron
 
-    ; Mostramos en pantalla el total de bytes descargados
+    ; Imprime el texto y el número de bytes descargados
     mov edx, OFFSET msgDesc 
     call WriteString
     mov eax, descargados
     mov esi, OFFSET buffer
-    call convertirDecimal
+    call convertirDecimal   ; Convierte el número a texto para poder imprimirlo
     mov edx, OFFSET buffer
     call WriteString
     call Crlf
 
-    ; Imprimimos los bytes que restan por descargar
+    ; Imprime el texto y el número de bytes pendientes
     mov edx, OFFSET msgPend 
     call WriteString
     mov eax, pendientes
@@ -70,7 +73,7 @@ main PROC
     call WriteString
     call Crlf
 
-    ; Presentamos el porcentaje completado en formato legible
+    ; Imprime el porcentaje de avance
     mov edx, OFFSET msgPorc 
     call WriteString
     mov eax, porcentaje
@@ -78,12 +81,11 @@ main PROC
     call convertirDecimal
     mov edx, OFFSET buffer
     call WriteString
-
-    mov al, '%'         ; Anexamos manualmente el caracter de porcentaje al final
+    mov al, '%'             ; Imprime el símbolo "%" al final
     call WriteChar      
     call Crlf
 
-    ; Desplegamos la cantidad de bloques de 1024 bytes obtenidos
+    ; Imprime los grupos completos de 1024 bytes
     mov edx, OFFSET msgGrup 
     call WriteString
     mov eax, grupos
@@ -93,7 +95,7 @@ main PROC
     call WriteString
     call Crlf
 
-    ; Imprimimos el sobrante o residuo del agrupamiento
+    ; Imprime el residuo
     mov edx, OFFSET msgResi 
     call WriteString
     mov eax, residuo
@@ -106,27 +108,30 @@ main PROC
     exit
 main ENDP
 
-convertirDecimal PROC ; Subrutina personalizada para transformar un valor entero en una cadena de texto ASCII decimal
+convertirDecimal PROC 
+    ; Subrutina que convierte un número a texto separando sus dígitos
     pushad
     mov ecx, 0
     mov ebx, 10
 
-DividirLoop: ; Bucle iterativo para aislar cada digito numerico mediante divisiones sucesivas
+DividirLoop: 
+    ; Divide el número entre 10 para aislar el último dígito
     xor edx, edx
     div ebx
-    add dl, 30h         ; Convertimos el residuo numerico a su respectivo caracter ASCII
-    push dx
+    add dl, 30h             ; Convierte el dígito a su carácter de texto (ASCII)
+    push dx                 ; Lo guarda temporalmente en la pila
     inc ecx
     cmp eax, 0
-    jne DividirLoop
+    jne DividirLoop         ; Repite el proceso hasta que ya no queden dígitos
 
-ExtraerLoop: ; Extraemos los digitos de la pila en orden inverso para alinearlos correctamente en el buffer
+ExtraerLoop: 
+    ; Saca los dígitos de la pila y los acomoda en el buffer de texto
     pop dx
     mov [esi], dl
     inc esi
     loop ExtraerLoop
 
-    mov BYTE PTR [esi], 0 ; Delimitamos el fin de la cadena con un byte nulo
+    mov BYTE PTR [esi], 0   ; Agrega un cero al final para indicar dónde termina el texto
     popad
     ret
 convertirDecimal ENDP
