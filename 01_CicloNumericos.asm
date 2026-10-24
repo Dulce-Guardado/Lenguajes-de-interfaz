@@ -19,7 +19,7 @@ ciclo: ; Aquí inicia la repetición. Todo lo de abajo se repetirá hasta que el
     
     mov eax, ecx ; Copiamos el número actual del contador para poder usarlo y mostrarlo.
     call WriteDec ; Mostramos ese número en la pantalla.
-    call Crlf ; Damos un "Enter" (salto de línea) para que el siguiente número salga abajo.
+    call Crlf ; Damos un "Enter" para que el siguiente número salga abajo.
 
     loop ciclo ; Regresamos a la palabra "ciclo", le restamos 1 al contador y repetimos todo.
 
