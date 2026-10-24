@@ -1,62 +1,67 @@
-;06- DECREMENTO E INCREMENTO
-;MATERIA: LENGUAJES DE INTERFAZ
-;ALUMNO: Angel Ernesto Santos Plazola
-;HORARIO: 08:00 - 09:00
-;DOCENTE: JOSE LUIS MEDINA JIMENEZ
-;DESCRIPCION: USO DE LAS INSTRUCCIONES INC Y DEC APLICADAS A UN CONTADOR PARA SIMULAR LA ENTRADA Y SALIDA DE VEHICULOS DE UN ESTACIONAMIENTO
+; 06- DECREMENTO E INCREMENTO
+; Materia: Lenguajes de Interfaz
+; Nombre de la alumna: Guardado Pérez Dulce María
+; Horario: 8:00 am - 09:00 am
+; Nombre del Docente: Jose Luis Medina Jimenez
+; Descripcion: Programa que simula un sistema de seguridad con contraseña y límite de intentos.
 
 INCLUDE Irvine32.inc 
+
 .data 
+;  Aquí guardamos los mensajes que va a leer el usuario 
     msgPIN BYTE "Ingrese la clave: ",0  
     msgError BYTE "Clave Incorrecta.",0
     msgAcceso BYTE "Acceso permitido",0
     msgBloqueo BYTE "Sistema Bloqueado",0
     msgIntentos BYTE "Intentos restantes: ",0
 
-    claveCorrecta = 1234
+    claveCorrecta = 1234 ; Nuestra contraseña secreta.
 
 .code
 main PROC
-    mov ebx, 3          ; Inicializamos el contador de oportunidades en 3
+    mov ebx, 3          ; Le damos 3 intentos a la persona para empezar.
     
-    intentar:
+intentar:               ; Aquí empieza el ciclo donde le preguntamos la contraseña.
+    
     mov edx, OFFSET msgPIN
-    call WriteString    ; Solicitamos el PIN en pantalla
-    call ReadInt        ; Capturamos el número ingresado por teclado
+    call WriteString    ; Mostramos el texto: "Ingrese la clave: "
+    call ReadInt        ; Nos quedamos esperando a que la persona escriba el número y dé Enter.
 
-    cmp eax, claveCorrecta
+    cmp eax, claveCorrecta ; Comparamos el número que escribió con el 1234.
 
-    je acceso           ; Si la clave es correcta, saltamos al área de éxito
+    je acceso           ; Si son iguales, lo mandamos directo a la sección de éxito ("acceso").
 
+    ; Si llega aquí, es porque se equivocó 
     mov edx, OFFSET msgError 
-    call WriteString    ; Informamos que el dato ingresado es erróneo
-    call crlf
+    call WriteString    ; Le decimos "Clave Incorrecta."
+    call crlf           ; Damos un "Enter" (salto de línea).
 
-    dec ebx             ; Restamos uno al total de intentos disponibles
+    dec ebx             ; Le quitamos un intento.
 
-    jz bloqueado        ; Si las oportunidades llegan a 0, pasamos al bloqueo
+    jz bloqueado        ; Si sus intentos llegan a cero, lo mandamos directo a la sección de "bloqueado".
 
+    ; Si todavía le quedan intentos
     mov edx, OFFSET msgIntentos
-    call WriteString
+    call WriteString    ; Mostramos el texto: "Intentos restantes: "
 
     mov eax, ebx
-    call WriteDec       ; Imprimimos cuántos intentos le quedan al usuario
-    call crlf
+    call WriteDec       ; Mostramos el número de vidas que le sobran (2, o 1).
+    call crlf           ; Damos otro salto de línea.
 
-    jmp intentar        ; Retornamos al inicio para pedir la clave nuevamente
+    jmp intentar        ; Lo regresamos arriba a la palabra "intentar" para que vuelva a probar.
 
-acceso:
+acceso:                 ; SECCIÓN DE ÉXITO
     mov edx, OFFSET msgAcceso
-    call WriteString    ; Mostramos mensaje de validación correcta
-    jmp fin
+    call WriteString    ; Le decimos "Acceso permitido"
+    jmp fin             ; Brincamos al final para que el programa termine sin mostrar errores.
 
-bloqueado:
+bloqueado:              ;SECCIÓN DE FRACASO
     mov edx, OFFSET msgBloqueo
-    call WriteString    ; Mostramos advertencia de seguridad por intentos agotados
-    jmp fin
+    call WriteString    ; Le decimos "Sistema Bloqueado"
+    jmp fin             
 
 fin:
-    exit                ; Finalizamos la ejecución del programa
+    exit               
 main ENDP
 
 END main
