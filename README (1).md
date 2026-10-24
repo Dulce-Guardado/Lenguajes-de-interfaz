@@ -1,11 +1,11 @@
-# Practicas de lenguajes Interfaz
+# Practicas de lenguajes Interfaz Unidad 2
 
-## Datos de la alumna y Docente
+## Datos de la alumna y del Docente
+* **Alumna:** Guardado Pérez Dulce María
+* **Docente:** Dr. José Luis Medina Jiménez
+* **Horario:** 08:00 - 09:00
 * **Materia:** Lenguajes de Interfaz
 * **Unidad:** 2 PROGRAMACION BASICA
-* **Alumno:** Guardado Pérez Dulce María
-* **Horario:** 08:00 - 09:00
-* **Docente:** Dr. José Luis Medina Jiménez
 
 ## Prácticas
 1. [Ciclos numéricos](./01_CiclosNumericos.asm)
