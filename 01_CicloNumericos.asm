@@ -4,7 +4,7 @@
 ; Horario: 8:00 am - 09:00 am
 ; Nombre del Docente: Jose Luis Medina Jimenez
 ; Descripcion: Este programa simplemente hace una cuenta regresiva desde el 5 hasta el 1
-y va mostrando cada número en la pantalla, uno debajo del otro.
+;y va mostrando cada número en la pantalla, uno debajo del otro.
 
 INCLUDE Irvine32.inc
 
