@@ -1,75 +1,74 @@
 ; 09.- PUSH y POP
 ; Materia: Lenguajes de Interfaz
-; Nombre: Santos Plazola Angel Ernesto 
-; Horario: 08:00 am - 09:00 am
-; Docente: Jose Luis Medina Jimenez
-; Descripcion: Manipulacion de la pila de memoria para guardar temporalmente y recuperar datos o estados de los registros
+; Nombre de la alumna: Guardado Pérez Dulce María
+; Horario: 8:00 am - 09:00 am
+; Nombre del Docente: Jose Luis Medina Jimenez
+; Descripcion: Programa que demuestra el uso de la pila para guardar y recuperar valores, 
+; el orden LIFO (último en entrar, primero en salir) y la ejecución de subrutinas.
+
 INCLUDE Irvine32.inc
 
 .code
 main PROC  
     ; SECCIÓN 1: Práctica básica de apilado y desapilado
-	mov eax, 40
+    mov eax, 40
+    push eax        ; Guardamos el valor 40 en el tope de la pila
 
-	push eax        ; Mandamos el contenido de EAX hacia el tope de la pila
+    nop
 
-	nop
+    mov eax, 0      ; Sobrescribimos EAX con 0
+    pop ebx         ; Extraemos el 40 de la pila y lo guardamos en EBX
 
-	mov eax, 0
-	pop ebx         ; Extraemos el valor guardado previamente y lo depositamos en EBX
+    nop
 
-	nop
+    ; SECCIÓN 2: Demostración de la regla LIFO (Último en entrar, Primero en salir)
+    mov eax, 10
+    push eax        ; Apilamos el 10
 
-	; SECCIÓN 2: Demostración de la regla LIFO (Último en entrar, Primero en salir)
-	mov eax, 10
-	push eax        ; Primer elemento apilado
+    mov eax, 20
+    push eax        ; Apilamos el 20
 
-	mov eax, 20
-	push eax        ; Segundo elemento apilado
+    mov eax, 30
+    push eax        ; Apilamos el 30
 
-	mov eax, 30
-	push eax        ; Tercer elemento apilado
+    pop eax         ; Desapilamos el último valor que ingresó (30) hacia EAX
+    pop ebx         ; Desapilamos el valor anterior (20) hacia EBX
+    pop ecx         ; Desapilamos el primer valor que ingresó (10) hacia ECX
 
-	pop eax         ; Retira el 30 (el más reciente)
-	pop ebx         ; Retira el 20
-	pop ecx         ; Retira el 10 (el primero que ingresó)
+    nop
 
-	nop
+    ; SECCIÓN 3: Resguardo temporal de registros en la pila
+    mov eax, 100
+    mov ebx, 200
 
-	; SECCIÓN 3: Resguardo temporal de registros en la pila
-	mov eax, 100
-	mov ebx, 200
+    push eax        ; Respaldamos el valor de EAX (100) en la pila
+    push bx         ; Respaldamos la mitad inferior del registro EBX
+    push ebx        ; Respaldamos el valor completo de EBX (200)
 
-	push eax        ; Protegemos el estado actual de EAX
-	push bx         ; (Instrucción original respetada)
-	push ebx        ; Protegemos el estado actual de EBX
+    mov eax, 999    ; Modificamos EAX sin perder su valor original guardado en la pila
+    mov ebx, 666    ; Modificamos EBX sin perder su valor original
 
-	mov eax, 999
-	mov ebx, 666
+    nop
 
+    ; SECCIÓN 4: Invocación de subrutinas mediante CALL y RET
+    mov eax, 50
+    mov ebx, 100
 
-	nop
-
-	; SECCIÓN 4: Invocación de subrutinas mediante CALL y RET
-	mov eax, 50
-	mov ebx, 100
-
-	call aumentarDiez ; Saltamos a la función secundaria para procesar datos
-	
-	nop
-	exit
-
+    call aumentarDiez ; Detiene la ejecución aquí, va a la subrutina y regresa cuando termina
+    
+    nop
+    exit
 main ENDP
 
-aumentarDiez PROC ; Subrutina que incrementa en diez unidades el acumulador EAX
-    push ebx        ; Salvaguardamos el registro EBX en la pila
+aumentarDiez PROC ; Subrutina que suma 10 al registro EAX
+    push ebx        ; Respaldamos el valor original de EBX en la pila antes de usarlo
 
-	mov ebx, 10 
-	add eax, ebx    ; Aplicamos el incremento aritmético
+    mov ebx, 10 
+    add eax, ebx    ; Sumamos el 10 a EAX
 
-	pop ebx         ; Devolvemos a EBX su valor original
+    pop ebx         ; Recuperamos de la pila el valor original de EBX
 
-	ret             ; Retornamos la ejecución al bloque principal
+    ret             ; Termina la subrutina y regresa al bloque de código principal
 aumentarDiez ENDP
 
 END main
