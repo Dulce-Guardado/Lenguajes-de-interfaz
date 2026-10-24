@@ -1,4 +1,4 @@
-; 06- DECREMENTO E INCREMENTO
+; 06- Decremento e incremento
 ; Materia: Lenguajes de Interfaz
 ; Nombre de la alumna: Guardado Pérez Dulce María
 ; Horario: 8:00 am - 09:00 am
