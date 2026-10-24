@@ -1,9 +1,9 @@
-# practicas-lenguajesInterfaz-AESP-22170821
+# Practicas de lenguajes Interfaz
 
-## Datos Alumno y Docente
+## Datos de la alumna y Docente
 * **Materia:** Lenguajes de Interfaz
 * **Unidad:** 2 PROGRAMACION BASICA
-* **Alumno:** Angel Ernesto Santos Plazola
+* **Alumno:** Guardado Pérez Dulce María
 * **Horario:** 08:00 - 09:00
 * **Docente:** Dr. José Luis Medina Jiménez
 
@@ -11,9 +11,9 @@
 1. [Ciclos numéricos](./01_CiclosNumericos.asm)
 2. [Captura y desplegado de mensajes](./02_Ingreso_De_Datos.asm)
 3. [Comparación y prueba](./03_Comparacion_y_Prueba.asm)
-4. [Saltos (Mayor, menor o igual con entrada del usuario)](./04_Saltos.asm)
-5. [Condicionales (Repetir hasta que el usuario ingrese cero)](./05_Comparacion_y_Prueba.asm)
-6. [Decremento e incremento (Decremento e incremento)](./06_DECREMENTO_E_INCREMENTO.asm)
+4. [Saltos](./04_Saltos.asm)
+5. [Condicionales](./05_Comparacion_y_Prueba.asm)
+6. [Decremento e incremento ](./06_DECREMENTO_E_INCREMENTO.asm)
 6.1. [Control de ocupacion de un estacionamiento](./6.1_Control_de_Ocupacion_deun_Estacionamiento.asm)
 7. [Validación de formato](./07_Validacion_De_Formato.asm)
 8. [Operaciones aritméticas](./08-OperacionesAritmeticas.asm)
