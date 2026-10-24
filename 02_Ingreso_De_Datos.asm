@@ -4,7 +4,7 @@
 ; Horario: 08:00 am - 09:00 am
 ; Docente: Jose Luis Medina Jimenez
 ; Descripcion :Este programa funciona como un pequeño formulario: te pide que escribas tu nombre, lo guarda 
-en un espacio que preparamos para no pasarnos de letras, y luego lo vuelve a mostrar en la pantalla.
+;en un espacio que preparamos para no pasarnos de letras, y luego lo vuelve a mostrar en la pantalla.
 
 TITLE Plantilla
 INCLUDE C:\irvine\Irvine32.inc
