@@ -1,4 +1,4 @@
-; 6.1: Control de incremento y decremento en un estacionamiento
+; 6.1: Control de ocupación de un estacionamiento.
 ; Materia: Lenguajes de Interfaz
 ; Nombre de la alumna: Guardado Pérez Dulce María
 ; Horario: 8:00 am - 09:00 am
