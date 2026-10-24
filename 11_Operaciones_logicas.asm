@@ -1,4 +1,4 @@
-; 11.- Operaciones logicas a nivel de bits
+; 11.- Operaciones logicas 
 ; Materia: Lenguajes de Interfaz
 ; Nombre de la alumna: Guardado Pérez Dulce María
 ; Horario: 8:00 am - 09:00 am
