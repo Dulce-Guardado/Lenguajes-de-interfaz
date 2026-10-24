@@ -1,4 +1,4 @@
-; 2.- Captura y desplegado de mensajes
+; 02.- Captura y desplegado de mensajes
 ; Materia: Lenguajes de Interfaz
 ; Nombre: Guardado Pérez Dulce María
 ; Horario: 08:00 am - 09:00 am
