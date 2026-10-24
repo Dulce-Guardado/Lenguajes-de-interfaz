@@ -1,4 +1,4 @@
-;7.- VALIDACION DE FORMATOS
+;7.- Validación de formato
 ; Materia: Lenguajes de Interfaz
 ; Nombre de la alumna: Guardado Pérez Dulce María
 ; Horario: 8:00 am - 09:00 am
