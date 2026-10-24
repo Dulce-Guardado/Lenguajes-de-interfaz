@@ -1,8 +1,8 @@
 ; 01- Ciclos Numericos
 ; Materia: Lenguajes de Interfaz
-; Nombre: Santos Plazola Angel Ernesto
+; Nombre: Guardado Pérez Dulce María
 ; Horario: 8:00 am - 09:00 am
-; Docente: Jose Luis Medina Jimenez
+; Nombre del Docente: Jose Luis Medina Jimenez
 ; Descripcion: Este programa en ensamblador imprime una cuenta regresiva del 5 al 1 en la consola.
 
 INCLUDE Irvine32.inc
