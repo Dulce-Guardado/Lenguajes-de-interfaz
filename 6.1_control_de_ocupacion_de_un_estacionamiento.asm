@@ -1,9 +1,11 @@
 ; 6.1: Control de incremento y decremento en un estacionamiento
-;MATERIA: LENGUAJES DE INTERFAZ
-;ALUMNO: Angel Ernesto Santos Plazola
-;HORARIO: 08:00 - 09:00
-;DOCENTE: JOSE LUIS MEDINA JIMENEZ
-; Proposito: Simulador interactivo de control de acceso vehicular usando acumuladores y validaciones de limites
+; Materia: Lenguajes de Interfaz
+; Nombre de la alumna: Guardado Pérez Dulce María
+; Horario: 8:00 am - 09:00 am
+; Nombre del Docente: Jose Luis Medina Jimenez
+; Descripcion: Programa que controla los espacios de un estacionamiento con capacidad para 20 autos,
+; sumando los autos que entran y mostrando cuántos lugares quedan disponibles o si ya se llenó.
+
 INCLUDE Irvine32.inc
 
 .data
@@ -14,82 +16,80 @@ INCLUDE Irvine32.inc
     msgExceso BYTE "No hay suficientes espacios disponibles",0
     msgInvalido BYTE "Cantidad invalida",0
 
-    capacidad = 20      ; Limite maximo de cajones en el estacionamiento
-    ocupados DWORD 0    ; Variable contadora del estado actual de ocupacion
+    capacidad = 20      ; Límite máximo de lugares permitidos
+    ocupados DWORD 0    ; Contador que lleva el registro de los lugares usados actualmente
 
 .code
 main PROC
 ingresar:
-    ; Desplegamos la peticion en consola y capturamos el numero de vehiculos ingresados
+    ; Pedimos al usuario que escriba cuántos autos van a entrar
     mov edx, OFFSET msgEntrada
     call WriteString
+    call ReadInt        ; Leemos el número ingresado y lo guardamos en EAX
 
-    call ReadInt
-
-    ; Validamos que la cantidad introducida no sea menor o igual a cero
+    ; Verificamos que el número sea válido (mayor a cero)
     cmp eax, 0
-    jle invalido
+    jle invalido        ; Si es cero o un número negativo, salta a mostrar el error de cantidad inválida
 
-    mov ebx, eax
+    mov ebx, eax        ; Guardamos el número de autos nuevos en EBX temporalmente
 
-    ; Calculamos la nueva ocupacion sumando los autos nuevos a los ya existentes
+    ; Calculamos el total sumando los autos nuevos a los que ya estaban estacionados
     mov eax, ocupados
     add eax, ebx
 
-    ; Comprobamos si el total sobrepasa la capacidad maxima permitida
+    ; Revisamos si con esta entrada superamos el límite de 20 lugares
     cmp eax, capacidad
-    jg exceso
+    jg exceso           ; Si el total es mayor a la capacidad, salta al mensaje de exceso
 
-    mov ocupados, eax
+    mov ocupados, eax   ; Si el número está dentro del límite, actualizamos el contador oficial de ocupados
 
-    ; Informamos cuantos espacios se encuentran ocupados hasta el momento
+    ; Mostramos en pantalla el total de espacios ocupados
     mov edx, OFFSET msgOcupados
     call WriteString
-
     mov eax, ocupados
     call WriteDec
     call Crlf
 
-    ; Verificamos si el estacionamiento llego exactamente al limite de su capacidad
+    ; Revisamos si el estacionamiento se llenó por completo en este turno
     mov eax, ocupados
     cmp eax, capacidad
-    je lleno
+    je lleno            ; Si los ocupados son exactamente iguales a la capacidad, salta al mensaje de lleno
 
-    ; Si aun hay espacio, calculamos y mostramos cuantos cajones libres restan
+    ; Si aún hay espacio, calculamos y mostramos cuántos lugares quedan libres
     mov edx, OFFSET msgDisponibles
     call WriteString
-
     mov eax, capacidad
-    sub eax, ocupados
+    sub eax, ocupados   ; Restamos: capacidad total menos lugares ocupados
     call WriteDec
     call Crlf
     call Crlf
 
-    jmp ingresar
+    jmp ingresar        ; Regresamos al inicio para registrar la siguiente entrada de autos
 
-exceso: ; Rutina ejecutada cuando se intenta rebasar el limite total de cajones
+exceso: 
+    ; Muestra que no hay espacio suficiente para la cantidad solicitada y vuelve a preguntar
     mov edx, OFFSET msgExceso
     call WriteString
     call Crlf
     call Crlf
-
     jmp ingresar
 
-invalido: ; Rutina de error para entradas negativas, nulas o no permitidas
+invalido: 
+    ; Muestra que el número ingresado no es válido (ej. un 0) y vuelve a preguntar
     mov edx, OFFSET msgInvalido
     call WriteString
     call Crlf
     call Crlf
-
     jmp ingresar
 
-lleno: ; Mensaje de advertencia cuando el estacionamiento esta al 100% de su capacidad
+lleno: 
+    ; Muestra que el estacionamiento llegó a su límite máximo y termina el ciclo
     mov edx, OFFSET msgLleno
     call WriteString
     call Crlf
 
 fin:
-    exit
+    exit              
 
 main ENDP
 
