@@ -1,4 +1,4 @@
-; 04- SALTOS
+; 04- Saltos
 ; Materia: Lenguajes de Interfaz
 ; Nombre de la alumna: Guardado Pérez Dulce María
 ; Horario: 8:00 am - 09:00 am
