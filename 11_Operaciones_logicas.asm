@@ -1,16 +1,18 @@
 ; 11.- Operaciones logicas a nivel de bits
-;MATERIA: LENGUAJES DE INTERFAZ
-;ALUMNO: Angel Ernesto Santos Plazola
-;HORARIO: 08:00 - 09:00
-;DOCENTE: JOSE LUIS MEDINA JIMENEZ
-; Sinopsis: Aplicacion de compuertas logicas (AND, OR, XOR, TEST) para mascara y manipulacion de estados binarios.
+; Materia: Lenguajes de Interfaz
+; Nombre de la alumna: Guardado Pérez Dulce María
+; Horario: 8:00 am - 09:00 am
+; Nombre del Docente: Jose Luis Medina Jimenez
+; Descripcion: Programa que muestra cómo usar operaciones lógicas (AND, OR, XOR, TEST)
+; para encender, apagar y revisar bits específicos dentro de un número.
+
 INCLUDE Irvine32.inc
 
 ; MAPA DE BITS (ESTADOS DEL SISTEMA):
 ; Bit 0 = Computadora encendida (0: No, 1: Si)
 ; Bit 1 = Estado de alarma      (0: No, 1: Si)
-; Bit 2 = Conexion de corriente  (0: No, 1: Si)
-; Configuracion de prueba inicial: 00000101b
+; Bit 2 = Conexion de corriente (0: No, 1: Si)
+; Configuracion inicial: 00000101b (PC encendida, corriente conectada, alarma apagada)
 
 .data
     msgEncendida BYTE "Alarma esta encendida", 0
@@ -19,46 +21,44 @@ INCLUDE Irvine32.inc
 .code
 main PROC  
 
-; CASO 1: AND (Utilizado como mascara para aislar el bit de alarma)
+; CASO 1: AND (Aislar un bit)
     mov al, 00000101b
-    and al, 00000010b   ; Filtramos dejando unicamente el bit correspondiente a la alarma
+    and al, 00000010b   ; Apaga todos los bits excepto el Bit 1 (alarma) para ver solo su valor.
 
-    call WriteBin       ; Mostramos el resultado binario en la consola
+    call WriteBin       ; Imprime el resultado en binario (dará 00000000).
 
-; CASO 2: OR (Modificacion para forzar el encendido del bit de alarma)
+; CASO 2: OR (Encender un bit específico)
     mov eax, 0
     mov al, 00000101b
-    or al, 00000010b    ; Activamos el bit de la alarma sin alterar los demas
+    or al, 00000010b    ; Enciende el Bit 1 (alarma) sin afectar el estado de los demás bits.
 
-    call WriteBin
+    call WriteBin       ; Imprime el resultado (dará 00000111).
 
-; CASO 3: XOR (Invierte o limpia los bits segun la mascara aplicada)
-; Base de trabajo: 00000101b
+; CASO 3: XOR (Apagar o invertir bits)
     mov eax, 0
     mov al, 00000101b
-    xor al, 00000101b   ; Aplica un operador exclusivo que anula los bits coincidentes
+    xor al, 00000101b   ; Compara el número consigo mismo. Los bits iguales se vuelven 0, limpiando el registro.
 
-    call WriteBin
+    call WriteBin       ; Imprime el resultado (dará 00000000).
     call Crlf
     
-; CASO 4: TEST (Evaluacion no destructiva para bifurcacion condicional)
-; Verificamos si la alarma esta activa o inactiva para emitir el aviso correspondiente
+; CASO 4: TEST (Revisar un bit sin alterarlo)
     mov al, 00000101b
-    test al, 00000010b  ; Comprobacion logica bit a bit que actualiza unicamente la bandera Zero (ZF)
-    jz alarmaApagada    ; Salto condicional si ZF = 1 (indica que esta apagada)
+    test al, 00000010b  ; Revisa si el Bit 1 (alarma) está encendido sin modificar el valor original en AL.
+    jz alarmaApagada    ; Si el resultado es cero (el bit está apagado), salta a la etiqueta 'AlarmaApagada'.
 
-    mov edx, OFFSET msgEncendida ; Cargamos la direccion de texto para notificar operacion activa
+    mov edx, OFFSET msgEncendida ; Si no saltó, carga el texto indicando que la alarma está encendida.
     call WriteString
     call Crlf
-    jmp FinPrograma
+    jmp FinPrograma     ; Salta al final para evitar imprimir el segundo mensaje.
 
-AlarmaApagada: ; Etiqueta de desviacion en caso de que la prueba resulte en cero
-    mov edx, OFFSET msgApagada
+AlarmaApagada: 
+    mov edx, OFFSET msgApagada ; Carga el texto indicando que la alarma está apagada.
     call WriteString
     call Crlf
 
 FinPrograma:
-	exit
+    exit
 
 main ENDP
 
