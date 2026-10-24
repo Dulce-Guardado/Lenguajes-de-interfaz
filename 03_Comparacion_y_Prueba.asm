@@ -1,4 +1,4 @@
-; 02. Ingreso de datos
+; 03. Comparación y prueba
 ; Materia: Lenguajes de Interfaz
 ; Nombre: Angel Ernesto Santos Plazola
 ; Horario: 08:00 am - 09:00 am
