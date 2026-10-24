@@ -1,51 +1,48 @@
-05- CONDICIONALES
-;MATERIA: LENGUAJES DE INTERFAZ
-;ALUMNO: Angel Ernesto Santos Plazola
-;HORARIO: 08:00 - 09:00
-;DOCENTE: JOSE LUIS MEDINA JIMENEZ
-;DESCRIPCION: APLICACION DE ESTRUCTURAS DE CONTROL PARA REPETIR UN BLOQUE DE CODIGO HASTA QUE SE DETECTE EL INGRESO DE UN CERO
-INCLUDE Irvine32.inc
+; 05- CONDICIONALES
+; Materia: Lenguajes de Interfaz
+; Nombre de la alumna: Guardado Pérez Dulce María
+; Horario: 8:00 am - 09:00 am
+; Nombre del Docente: Jose Luis Medina Jimenez
+; Descripcion: Programa para mostrar dos formas de repetir cosas (bucles), contando del 1 al 100 de ambas maneras.
 
 .code
 main PROC
-; BUCLE WHILE
-; Evalúa la condición antes de entrar o continuar el bloque de instrucciones.
-; Imprime los números del 1 al 100.
 
-; WHILE
-    mov ebx, 1 
+; PRIMERA PARTE: EL BUCLE "WHILE" (Mientras)
+; Revisa primero, actúa después.
+
+    mov ebx, 1 ; Empezamos nuestro contador en 1.
 
 cicloWhile: 
 
-    cmp ebx, 100 
+    cmp ebx, 100 ; Revisamos si nuestro contador ya llegó al 100.
+    jg fin ; Si ya nos pasamos del 100, saltamos directo a la palabra "fin" para detenernos.
 
-    jg fin 
-
-    mov eax, ebx
-    call WriteDec 
+    mov eax, ebx ; Copiamos el número actual para poder imprimirlo.
+    call WriteDec ; Lo mostramos en la pantalla.
     call Crlf 
 
-    inc ebx 
-    jmp cicloWhile 
+    inc ebx ; Le sumamos 1 a nuestro contador (si era 1, ahora es 2).
+    jmp cicloWhile ; Obligamos a la computadora a regresar a "cicloWhile" para repetir todo.
 
 fin:
     call Crlf 
 
-    mov ebx, 1 
+; SEGUNDA PARTE: EL BUCLE "DO-WHILE" (Hacer-Mientras)
+; Actúa primero, revisa después.
+
+    mov ebx, 1 ; Reiniciamos nuestro contador para volver a empezar desde el 1.
 
 cicloDoWhile:
-; BUCLE DO-WHILE
-; Ejecuta el bloque de código al menos una vez antes de evaluar la condición.
-; También imprime los números del 1 al 100.
 
-    mov eax, ebx 
-    call WriteDec 
-    call Crlf 
+    mov eax, ebx ; Copiamos el número actual.
+    call WriteDec ; Lo mostramos en la pantalla directamente (sin revisar nada antes).
+    call Crlf
 
-    inc ebx
-    cmp ebx, 100 
-
-    jle cicloDoWhile 
+    inc ebx ; Le sumamos 1 a nuestro contador.
+    
+    cmp ebx, 100 ; Ahora sí, después de imprimir y sumar, revisamos si llegamos a 100.
+    jle cicloDoWhile ; Si nuestro número es menor o igual a 100, regresamos a repetir el proceso.
 
     exit 
 main ENDP
